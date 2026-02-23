@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { isTokenExists,logout } from "../Utils/Functions";
 export default function Header() {
     const pathname = usePathname();
 
@@ -13,18 +14,21 @@ export default function Header() {
           <li>
             <Link href="/"  className={pathname === "/" ? "active" : ""}>Home</Link>
           </li>
-
-          <li>
-            <Link href="/about" className={pathname === "/about" ? "active" : ""}>About</Link>
-          </li>
-
-          <li>
-            <Link href="/services" className={pathname === "/services" ? "active" : ""}>Services</Link>
-          </li>
-
-          <li>
-            <Link href="/contact" className={pathname === "/contact" ? "active" : ""}>Contact</Link>
-          </li>
+          {!isTokenExists() &&
+            <li>
+              <Link href="/login" className={pathname === "/login" ? "active" : ""}>Login</Link>
+            </li>
+          }
+          {isTokenExists() &&
+            <>
+              <li>
+                <Link href="/meal" className={pathname === "/meal" ? "active" : ""}>Meals</Link>
+              </li>
+              <li>
+                <button className="btn-logout" onClick={() => logout()}>Logout</button>
+              </li>
+            </>
+          }
         </ul>
       </nav>
     </header>
