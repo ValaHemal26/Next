@@ -13,13 +13,13 @@ export default function Sidebar() {
             </li>
             {!isTokenExists() &&
               <li>
-                <Link href="/login" className={"btn" + (pathname === "/login" ? " active" : "") }>Login</Link>
+                <Link href="/login" className={"btn btn-logout" + (pathname === "/login" ? " active" : "") }>Login</Link>
               </li>
             }
             {isTokenExists() &&
               <>
                 <li>
-                  <Link href="/meal" className={pathname === "/meal" ? "active" : ""}>Meals</Link>
+                  <Link href="/business" className={pathname === "/business" ? "active" : ""}>Businesses</Link>
                 </li>
                 <li>
                   <button className="btn btn-logout" onClick={() =>

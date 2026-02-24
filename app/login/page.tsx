@@ -26,26 +26,22 @@ export default function LoginPage() {
     if (!formData.role) return "Please select role";
     if (!formData.value) return "Field is required";
 
-    if (
-      formData.type === "number" &&
-      !/^[0-9]{10}$/.test(formData.value)
-    )
+    if ( formData.type === "number" && !/^[0-9]{10}$/.test(formData.value) )
       return "Enter valid 10 digit number";
 
-    if (
-      formData.type === "email" &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.value)
-    )
+    if (formData.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.value))
       return "Enter valid email";
 
     return "";
   }
 
   function handleChange  (key: string, value: string)  {
+    console.log(formData);
     setFormData((prev) => ({
       ...prev,
       [key]: value,
     }));
+    
   }
 
   async function handleSubmit  ()  {

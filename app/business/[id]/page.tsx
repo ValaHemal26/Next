@@ -17,67 +17,70 @@ export default async function SingleBusinessPage({
   }
 
   const data = await getSingleBusiness(id, token);
-  const business = data?.data;
+ if (!data.success) {
+    return <div>{data.message}</div>;
+  } 
+  
+  const business = data?.data?.data;
 
-  return (
-    <div className="business-page">
+return (
 
-      {/* Cover */}
-      <div className="business-cover">
+    <div className="business">
+
+      <div className="business__cover">
         {business?.cover_photo?.url && (
           <img
             src={business.cover_photo.url}
             alt={business?.name}
-            className="cover-img"
+            className="business__cover-img"
           />
         )}
-        <div className="overlay" />
+        <div className="business__cover-overlay" />
       </div>
 
-      <div className="business-container">
+      <div className="business__wrapper">
 
-        {/* Business Info Card */}
-        <div className="business-card">
+        <div className="business__card">
 
-          <div className="business-header">
+          <div className="business__top">
 
-            <div className="logo-section">
+            <div className="business__info">
               {business?.logo?.url && (
                 <img
                   src={business.logo.url}
                   alt="Logo"
-                  className="logo-img"
+                  className="business__logo"
                 />
               )}
 
               <div>
-                <h1>{business?.name}</h1>
-                <p className="service-title">
+                <h1 className="business__title">{business?.name}</h1>
+                <p className="business__service">
                   {business?.services?.title}
                 </p>
               </div>
             </div>
 
-            <div className="status-section">
+            <div className="business__status-box">
               <span
                 className={
                   business?.is_business_open
-                    ? "status open"
-                    : "status closed"
+                    ? "status status--open"
+                    : "status status--closed"
                 }
               >
                 {business?.is_business_open
                   ? "Open Now"
                   : "Currently Closed"}
               </span>
-              <p>Free Delivery: {business?.free_delivery_limit}</p>
+              <p>Free Delivery: {business?.free_delivery_limit} Km</p>
               <p>Extra Charges: ₹{business?.extra_delivery_charges}</p>
             </div>
           </div>
 
-          <div className="divider" />
+          <hr />
 
-          <div className="business-details">
+          <div className="business__details">
             <div>
               <h3>Address</h3>
               <p>{business?.address_1?.location_address}</p>
@@ -106,36 +109,37 @@ export default async function SingleBusinessPage({
           </div>
         </div>
 
-        {/* Meals Section */}
-        <div className="meals-section">
-          <h2>Available Meals</h2>
+        <div className="meals">
+          <h2 className="meals__title">Available Meals</h2>
 
-          <div className="meal-grid">
+          <div className="meals__grid">
             {business?.services?.meals?.map((meal: any) => (
-              <div key={meal.id} className="meal-card">
-                <div className="meal-header">
+              <div key={meal.id} className="meal">
+                <div className="meal__header">
                   <h3>{meal.title}</h3>
-                  <span>{meal.meal_type?.name}</span>
+                  <span className="meal__type">
+                    {meal.meal_type?.name}
+                  </span>
                 </div>
 
-                <p className="meal-time">
+                <p className="meal__time">
                   {meal.available_from} - {meal.available_to}
                 </p>
 
-                <div className="meal-items">
+                <div className="meal__items">
                   {meal.items?.map((item: any) => (
-                    <div key={item.id} className="meal-item">
+                    <div key={item.id} className="meal__item">
                       <span>
-                        {item.title} {item.quantity && `(${item.quantity})`}
+                        {item.title} {item.quantity && " (" + item.quantity + ")"}
                       </span>
                       <span>₹{item.price}</span>
                     </div>
                   ))}
                 </div>
 
-                <button className="book-btn">
+                {/* <button className="btn-primary">
                   Book Meal
-                </button>
+                </button> */}
               </div>
             ))}
           </div>
@@ -143,5 +147,7 @@ export default async function SingleBusinessPage({
 
       </div>
     </div>
-  );
+        
+  
+);
 }

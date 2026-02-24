@@ -39,35 +39,73 @@ export async function verifyOtp(data: any) {
   return await res.json();
 }
 
-export async function getBusinesses(token: string) {
-  const res = await fetch(
-    API_URL + "frontend/businesses?services=2&page=1&per_page=50",
-    {
-      headers: {
-        Authorization: "Bearer " + token,
+export async function getBusinesses(token: string,selectedService: number) {
+  try {
+    let url = API_URL + "frontend/businesses?page=1&per_page=50";
+
+    if (selectedService) {
+      url += `&service=${selectedService}`;
+    }
+    const res = await fetch(
+      url,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: data?.message || "Failed to fetch businesses",
+        status: res.status,
       }
     }
-  );
 
-  return res.json();
-}
-
-export async function getSingleBusiness(id: string, token: string) {
-  console.log(API_URL);
-  const res = await fetch(
-    API_URL + "frontend/businesses/" + id,
-    {
-      headers: {
-        Authorization: "Bearer " + token,
-      }
+    return {
+      success: true,
+      data,
+      status: res.status,
     }
-  );
-
-  if (!res.ok) {
-    const errorText = await res.text();
-    console.error("API Error:", errorText);
-    throw new Error("Failed to fetch business");
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong",
+      status: 500,
+    }
   }
+}
+export async function getSingleBusiness(id: string, token: string) {
+  try {
+    const res = await fetch(API_URL + "frontend/businesses/" + id, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
 
-  return res.json();
+    const data = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: data?.message || "Failed to fetch business",
+        status: res.status,
+      }
+    }
+
+    return {
+      success: true,
+      data,
+      status: res.status,
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong",
+      status: 500,
+    }
+  }
 }

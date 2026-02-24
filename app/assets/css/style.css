@@ -108,6 +108,7 @@ body {
 }
 
 .btn {
+  display: block  ;
   width: 100%;
   padding: 10px;
   border: none;
@@ -161,12 +162,6 @@ body {
   margin-bottom: 30px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-}
-
 .card {
   border: 1px solid #ddd;
   padding: 20px;
@@ -188,197 +183,251 @@ body {
   color: #fff;
   font-weight: 500; 
 }
+/* Business List */
+.business-list-header{
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.business-grid {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
 
-.card-image {
-  width: 100%;
+.business-card {
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.35s ease;
+}
+
+
+.imageWrapper {
   height: 180px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.location {
-  font-size: 14px;
-  color: #6b7280;
-}
-
-.service {
-  font-size: 14px;
-  margin: 8px 0;
-}
-
-.status {
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
-.status.open {
-  color: green;
-}
-
-.status.closed {
-  color: red;
-}
-
-.business-page {
-  background: #f4f6f9;
-  min-height: 100vh;
-}
-
-.business-cover {
-  position: relative;
-  height: 280px;
   overflow: hidden;
 }
 
-.cover-img {
+.image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.overlay {
+.cardContent {
+  padding: 20px;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.location {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.service {
+  font-size: 0.9rem;
+  color: #475569;
+  margin-bottom: 14px;
+}
+
+.openBadge {
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 50px;
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.closedBadge {
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 50px;
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+.filter-container{
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+}
+.filter-container h3{
+  font-size: 18px;
+  font-weight: 700;
+}
+.filter-container select{
+  border: 2px solid;
+  padding: 5px;
+  border-radius: 10px;
+}
+/* Single Page */
+.business__cover {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+}
+
+.business__cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.business__cover-overlay {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
 }
 
-.business-container {
-  max-width: 1200px;
-  margin: -80px auto 40px;
-  padding: 0 20px;
-  position: relative;
-  z-index: 2;
+.business__wrapper {
+  width: 90%;
+  max-width: 1100px;
+  margin: -60px auto 40px;
 }
 
-.business-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+.business__card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      z-index: 22;
+    position: relative;
 }
 
-.business-header {
+.business__top {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 20px;
 }
 
-.logo-section {
+.business__info {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 }
 
-.logo-img {
-  width: 90px;
-  height: 90px;
-  border-radius: 12px;
+.business__logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
   object-fit: cover;
-  border: 1px solid #ddd;
+  border: 3px solid #eee;
 }
 
-.service-title {
-  color: #777;
+.business__title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.business__service {
+  color: gray;
   margin-top: 5px;
 }
 
 .status {
-  padding: 6px 14px;
+  padding: 6px 12px;
   border-radius: 20px;
-  font-size: 13px;
-  color: #fff;
+  font-size: 14px;
   display: inline-block;
   margin-bottom: 10px;
 }
 
-.status.open {
-  background: #28a745;
+.status--open {
+  background-color: #d4edda;
+  color: #155724;
 }
 
-.status.closed {
-  background: #ffabb3;
+.status--closed {
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
-.divider {
-  height: 1px;
-  background: #eee;
-  margin: 25px 0;
-}
-
-.business-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.business__details {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 20px;
   gap: 30px;
 }
 
-.business-details h3 {
-  margin-bottom: 10px;
+.business__details h3 {
+  margin-bottom: 8px;
 }
 
-.meals-section {
-  margin-top: 50px;
+.business__details p {
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: #555;
 }
 
-.meals-section h2 {
-  margin-bottom: 25px;
+.meals {
+  margin-top: 40px;
 }
 
-.meal-grid {
+.meals__title {
+  margin-bottom: 20px;
+}
+
+.meals__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
 }
 
-.meal-card {
-  background: #fff;
-  border-radius: 14px;
+.meal {
+  background: white;
   padding: 20px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
-  transition: 0.3s;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
 }
 
-.meal-card:hover {
-  transform: translateY(-5px);
-}
-
-.meal-header {
+.meal__header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 5px;
+  align-items: center;
 }
 
-.meal-time {
-  font-size: 13px;
-  color: #777;
-  margin-bottom: 15px;
+.meal__type {
+  font-size: 12px;
+  background: #eee;
+  padding: 4px 8px;
+  border-radius: 5px;
 }
 
-.meal-item {
+.meal__time {
+  font-size: 14px;
+  color: gray;
+  margin: 10px 0;
+}
+
+.meal__item {
   display: flex;
   justify-content: space-between;
   margin-bottom: 6px;
   font-size: 14px;
 }
 
-.book-btn {
-  margin-top: 15px;
+.btn-primary {
   width: 100%;
-  padding: 8px;
+  margin-top: 15px;
+  padding: 10px;
   border: none;
-  background: #000;
-  color: #fff;
-  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 14px;
 }
 
-.book-btn:hover {
-  background: #333;
-}
-
-@media (max-width: 768px) {
-  .business-details {
-    grid-template-columns: 1fr;
-  }
+.btn-primary:hover {
+  background-color: #0056b3;
 }
