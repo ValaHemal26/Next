@@ -45,7 +45,8 @@ export default function VerifyOtpPage() {
 
   }, []);
 
-  async function handleVerify() {
+ async function handleVerify() {
+  try {
     if (!/^[0-9]{4,6}$/.test(otp)) {
       setMessage({
         messageType: "error",
@@ -62,29 +63,34 @@ export default function VerifyOtpPage() {
       value: authData.value,
       code: Number(otp),
     });
+    
+    if (!res.data?.token) {
+      throw new Error(res.message || "Invalid OTP");
+    }
 
+    const { token, ...user } = res.data;
+    
     setLoading(false);
 
-    if (res.data?.token) {
-      const { token, ...user } = res.data;
+    setCookie("token", token);
+    setCookie("user", JSON.stringify(user));
 
-      setCookie("token", token);
+    setMessage({
+      messageType: "success",
+      messageText: "OTP Verified Successfully",
+    });
+   
+    router.push("/business");
 
-      setCookie("user", JSON.stringify(user));
-
-      setMessage({
-        messageType: "success",
-        messageText: "OTP Verified Successfully",
-      });
-
-      router.push("/");
-    } else {
-      setMessage({
-        messageType: "error",
-        messageText: "Invalid OTP",
-      });
-    }
-  }
+  } catch (error: any) {
+    console.log(error);
+    setMessage({
+      messageType: "error",
+      messageText: error.message || "Verification failed",
+    });
+     setLoading(false);
+  } 
+}
 
   async function handleResend() {
     setLoading(true);
@@ -112,8 +118,8 @@ export default function VerifyOtpPage() {
   }
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
+    <div className="profile-container">
+      <div className="profile-card">
         <h2>Verify OTP</h2>
 
         <input
@@ -124,6 +130,7 @@ export default function VerifyOtpPage() {
         />
 
         <button
+          type="submit"
           className="btn success"
           disabled={loading}
           onClick={handleVerify}

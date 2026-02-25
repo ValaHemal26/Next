@@ -22,6 +22,9 @@ export default function Sidebar() {
                   <Link href="/business" className={pathname === "/business" ? "active" : ""}>Businesses</Link>
                 </li>
                 <li>
+                  <Link href="/profile" className={pathname === "/profile" ? "active" : ""}>Profile</Link>
+                </li>
+                <li>
                   <button className="btn btn-logout" onClick={() =>
                     { 
                       logout();

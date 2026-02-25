@@ -19,6 +19,7 @@ export default async function BusinessList({ searchParams }: { searchParams?: { 
   if (!response.success) {
     return <div>{response.message}</div>;
   }
+  
   const businesses = response?.data?.data?.businesses;
 
   return (
@@ -31,7 +32,7 @@ export default async function BusinessList({ searchParams }: { searchParams?: { 
       <div className="business-grid">
         
         { businesses?.length === 0 
-        
+
             ? "No Business found" :
             
           businesses.map((business: any) => (

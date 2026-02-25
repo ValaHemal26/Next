@@ -36,7 +36,7 @@ export default function LoginPage() {
   }
 
   function handleChange  (key: string, value: string)  {
-    console.log(formData);
+    
     setFormData((prev) => ({
       ...prev,
       [key]: value,
@@ -44,38 +44,38 @@ export default function LoginPage() {
     
   }
 
-  async function handleSubmit  ()  {
+ async function handleSubmit() {
+  try {
     const err = validate();
     if (err) {
-      setMessage({
-        messageType: "error",
-        messageText: err,
-      });
+      setMessage({ messageType: "error", messageText: err });
       return;
     }
 
     setLoading(true);
-    
+
     const res = await sendOtp(formData);
 
-    setLoading(false);
-
-    if (res.success) {
-   
-      setCookie("formData", JSON.stringify(formData));
-
-      router.push("/verify-otp");
-    } else {
-      setMessage({
-        messageType: "error",
-        messageText: res.message,
-      });
+    if (!res.success) {
+      throw new Error(res.message);
     }
-  }
+    setLoading(false);
+    setCookie("formData", JSON.stringify(formData));
+    router.push("/verify-otp");
+    
+  } catch (error: any) {
+
+    setMessage({
+      messageType: "error",
+      messageText: error.message || "Something went wrong",
+    });
+    setLoading(false);
+  } 
+}
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
+    <div className="profile-container">
+      <div className="profile-card">
         <h2>Login</h2>
 
         <div className="radio-group">

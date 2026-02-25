@@ -22,7 +22,10 @@ export default function Header() {
           {isTokenExists() &&
             <>
               <li>
-                <Link href="/meal" className={pathname === "/meal" ? "active" : ""}>Meals</Link>
+                <Link href="/business" className={pathname === "/business" ? "active" : ""}>businesses</Link>
+              </li>
+              <li>
+                <Link href="/profile" className={pathname === "/profile" ? "active" : ""}>Profile</Link>
               </li>
               <li>
                 <button className="btn-logout" onClick={() => logout()}>Logout</button>
