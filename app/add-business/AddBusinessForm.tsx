@@ -88,7 +88,7 @@ export function AddBusinessForm({
   
   useEffect(() => {
     if (state?.success) {
-      // setFormData(initialState);
+      setFormData(initialState);
       setEditingBusiness(null);
     }
   }, [state?.success]);
