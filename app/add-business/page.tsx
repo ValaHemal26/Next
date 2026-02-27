@@ -1,9 +1,8 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { addBusiness, deleteBusiness, getMyBusinesses, getServices } from "../api/api";
-import { AddBusinessForm } from "./AddBusinessForm";
+import { addBusiness, deleteBusiness, getMyBusinesses, getServices,updateBusiness } from "../api/api";
+import { AddBusinessClient } from "./AddBusinessClient ";
 import "../assets/css/style.css";
-import {MyBusinessList} from "./MyBusinessList";
 import { revalidatePath } from "next/cache";
 
 export default async function AddBusinessPage() {
@@ -30,7 +29,7 @@ export default async function AddBusinessPage() {
   
   async function handleAddBusiness(prevState: any, formData: FormData) {
     "use server";
-    console.log (formData.get("secondary_address_checkbox"));
+    
     if (!token) redirect("/login");
   
     const body = {
@@ -64,6 +63,7 @@ export default async function AddBusinessPage() {
         pincode: formData.get("address_2_pincode") ?? null,
       },
     };
+    
     if (formData.get("secondary_address_checkbox")) {
       body.address_2 = {
         location_address: formData.get("address_2_location") ?? null,
@@ -99,7 +99,7 @@ export default async function AddBusinessPage() {
     if (body.extra_delivery_charges < 0) {
       errors.extra_delivery_charges = "Delivery charges cannot be negative";
     }
-
+    const id = formData.get("id");
     if (Object.keys(errors).length > 0) {
       return {
         success: false,
@@ -110,9 +110,13 @@ export default async function AddBusinessPage() {
         values: body,
       };
     }
-
-    const res = await addBusiness(body, token);
-
+    let res;
+    if (id) {
+      res = await updateBusiness(id,body,token);
+    } else {
+      res = await addBusiness(body, token);
+    }
+    console.log(res);
     if (!res.success) {
       return {
         success: false,
@@ -124,19 +128,15 @@ export default async function AddBusinessPage() {
       };
     }
     
+    revalidatePath("/add-business");
     return {
       success: true,
       message: { 
         messageType: "success",
-        messageContent: "Business Added Successfully"
+        messageContent: res.data.message
       },
-      values: {},
+      values: body,
     };
-    
-  }
-
-  async function handleUpdate(id:Number) {
-    "use server";
     
   }
 
@@ -169,8 +169,14 @@ export default async function AddBusinessPage() {
     <div className="add-business-container">
       <div className="add-business-card">
         <h2>Add Business</h2>
-        <AddBusinessForm action={handleAddBusiness} services={getServiceList} />
-        <MyBusinessList businessList={businessList} handleDelete={handleDelete} handleUpdate={handleUpdate}/>
+
+        <AddBusinessClient
+          token={token}
+          services={getServiceList}
+          businessList={businessList}
+          handleAddBusiness={handleAddBusiness}
+          handleDelete={handleDelete}
+        />
       </div>
     </div>
   );

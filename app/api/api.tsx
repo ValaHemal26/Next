@@ -211,6 +211,41 @@ export async function addBusiness(data: any, token: string) {
     };
   }
 }
+export async function updateBusiness(id: Number,data: any, token: string) {
+  try {
+    const res = await fetch(API_URL + "businesses/" + id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+   
+    if (!res.ok) {
+      return {
+        success: false,
+        message: result?.message || "Failed to add business",
+        status: res.status,
+      };
+    }
+
+    return {
+      success: true,
+      data: result,
+      status: res.status,
+    };
+
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong",
+      status: 500,
+    };
+  }
+}
 export async function getServices(token:string) {
   try{
     const res = await fetch(API_URL + "services", {
