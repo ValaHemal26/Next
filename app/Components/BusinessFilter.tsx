@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-export function BusinessFilters() {
+export function BusinessFilters({services}) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -34,10 +34,11 @@ export function BusinessFilters() {
                 className="service-dropdown"
             >
                 <option value="">All Services</option>
-                <option value="2">Tiffin Service</option>
-                <option value="3">Dry Snacks</option>
-                <option value="4">Home Bakery</option>
-                <option value="5">Home Cook</option>
+                {
+                  services.data.data.map(s =>
+                    <option key={s.id} value={s.id}>{s.name}</option>
+                  )
+                }
             </select>
         </div>
     </div>

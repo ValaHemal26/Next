@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import {BusinessFilters} from "../Components/BusinessFilter";
-import { getBusinesses } from "../api/api";
+import { getBusinesses,getServices } from "../api/api";
 
 
 export default async function BusinessList({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
@@ -14,7 +14,7 @@ export default async function BusinessList({ searchParams }: { searchParams?: { 
   if (!token) {
     redirect("/login");
   }
-
+  const serviceList = await getServices(token);
   const response = await getBusinesses(token,service);
   if (!response.success) {
     return <div>{response.message}</div>;
@@ -27,7 +27,7 @@ export default async function BusinessList({ searchParams }: { searchParams?: { 
     <div className="business-container">
 
       <h1 className="business-list-header">Business List</h1>
-      <BusinessFilters />
+      <BusinessFilters services={serviceList}/>
 
       <div className="business-grid">
         

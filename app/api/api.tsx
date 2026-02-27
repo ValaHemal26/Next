@@ -81,7 +81,9 @@ export async function getBusinesses(token: string,selectedService: number) {
         headers: {
           Authorization: "Bearer " + token,
         },
-      }
+        cache: 'force-cache' ,
+        next: { revalidate: 3600 } ,
+      },
     );
 
     const data = await res.json();
@@ -172,5 +174,131 @@ export async function updateProfile(data: any, token: string) {
       message: "Something went wrong",
       status: 500,
     };
+  }
+}
+export async function addBusiness(data: any, token: string) {
+  try {
+    const res = await fetch(API_URL + "businesses", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: result?.message || "Failed to add business",
+        status: res.status,
+      };
+    }
+
+    return {
+      success: true,
+      data: result,
+      status: res.status,
+    };
+
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong",
+      status: 500,
+    };
+  }
+}
+export async function getServices(token:string) {
+  try{
+    const res = await fetch(API_URL + "services", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      }
+    });
+
+    const result = await res.json();
+  
+    if (!res.ok) {
+      return {
+        success: false,
+        message:  "Failed to Fetch Services",
+        status: res.status,
+      };
+    }
+
+    return {
+      success: true,
+      data: result,
+      status: res.status,
+    };
+  }catch(error){
+      return {
+        success: false,
+        message: "Failed to Fetch Services",
+        status: 500,
+      };
+  }
+}
+export async function getMyBusinesses(token: string) {
+    try{
+      const result = await fetch(API_URL + "businesses",{
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        }
+      }) ;
+      if(!result.ok){
+        return{
+          success: false,
+          message: "Failed Get Your Businesses",
+          status: result.status
+        }
+      }
+      return {
+        success: true,
+        data: await result.json(),
+        status: result.status,
+      };
+    }catch(error){
+      return {
+        success: false,
+        message: "Failed to Fetch Your Businesses",
+        status: 500,
+      };
+    }
+}
+export async function deleteBusiness(BID:type,token) {
+  try{
+    const res = await fetch(API_URL + "businesses/" + BID,{
+      method: "DELETE",
+      headers: {
+          Authorization: "Bearer " + token,
+      },
+      
+    });
+    
+    if(!res.ok){
+      return{
+        success: false,
+        message: "Failed To Delete Business",
+        status: 400
+      };
+    }
+    return{
+      success: true,
+      message: "Business Deleted Successfully",
+      status: 200
+    };
+  }catch(error){
+    return{
+      success: false,
+      message: "Failed To Delete Business",
+      status: 500
+    }
   }
 }

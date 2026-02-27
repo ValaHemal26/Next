@@ -1,10 +1,15 @@
 "use client";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { isTokenExists,logout } from "../Utils/Functions";
+import { getCookie, isTokenExists,logout } from "../Utils/Functions";
+
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const userObj =  getCookie("user");
+
+         
+        
   return (
     <aside className="sidebar">
         <ul className="">
@@ -17,7 +22,11 @@ export default function Sidebar() {
               </li>
             }
             {isTokenExists() &&
-              <>
+              <>    
+                <li>
+                  <Link href="/add-business" className={pathname === "/add-business" ? "active" : ""}>Add Business</Link>
+                </li>
+              
                 <li>
                   <Link href="/business" className={pathname === "/business" ? "active" : ""}>Businesses</Link>
                 </li>

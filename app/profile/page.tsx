@@ -4,7 +4,6 @@ import { updateProfile } from "../api/api";
 import {ProfileForm} from "./ProfileForm";
 import "../assets/css/style.css";
 
-
 export default async function ProfilePage({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
